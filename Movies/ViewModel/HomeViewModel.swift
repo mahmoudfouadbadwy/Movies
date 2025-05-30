@@ -10,18 +10,28 @@ import SwiftUI
 
 
 @Observable class HomeViewModel {
-    private let networkService: NetworkService
-    
     var movies: [Movie] = []
+    
+    private let networkService: NetworkService
+    private var currentPage = 1
     
     init(networkService: NetworkService) {
         self.networkService = networkService
     }
     
-    func loadMovies() async throws {
+    func loadMovies(page: Int = 1) async throws {
         do {
-            let moviesData: MoviesData =  try await networkService.makeRequest(url: NetworkConstants.moviesUrl)
-            self.movies = moviesData.movies
+            let moviesData: MoviesData =  try await networkService.makeRequest(url: "\(NetworkConstants.moviesUrl)&page=\(page)")
+            self.movies.append(contentsOf: moviesData.movies)
+            self.currentPage = moviesData.page
+        } catch {
+            throw(error)
+        }
+    }
+    
+    func loadMoreMovies() async throws {
+        do {
+            try await self.loadMovies(page: currentPage + 1)
         } catch {
             throw(error)
         }

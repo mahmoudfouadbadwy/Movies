@@ -37,7 +37,6 @@ struct NetworkService {
 
 
 enum InternalErrors: String, Error {
-    
     case invalidURL = "The provided url is invalid."
     case serverError = "The server responded with an error."
     case decodeingError = "Error while decoding the response."

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-   
+    
     @State var viewModel: HomeViewModel
     @State private var isLoading = false
     @State private var loadingFailed = false
@@ -16,21 +16,18 @@ struct HomeView: View {
     var body: some View {
         Group {
             if isLoading {
-                ProgressView("Loading...")
+                ProgressView(Constants.loadingText)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if loadingFailed {
-                ErrorView(message: "Failed to load the Movies") {
+            }
+            
+            if loadingFailed {
+                ErrorView(message: Constants.loadingFailed) {
                     Task {
-                        await self.loadMovies()
+                        await loadMovies()
                     }
                 }
             } else {
-                GeometryReader { gemoetry in
-                    ScrollView(.vertical, showsIndicators: false) {
-                        ImageGridView(movies: $viewModel.movies, width: gemoetry.size.width / 2)
-                    }
-                    .background(.black)
-                }
+                ImageGridView(viewModel: viewModel)
             }
         }.task {
             await loadMovies()

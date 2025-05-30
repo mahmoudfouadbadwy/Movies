@@ -20,7 +20,7 @@ struct ErrorView: View {
                 .frame(width: 80, height: 80)
                 .foregroundColor(.red)
 
-            Text("Oops!")
+            Text(Constants.oopsErrorTitle)
                 .font(.title)
                 .fontWeight(.bold)
 
@@ -30,7 +30,7 @@ struct ErrorView: View {
                 .padding(.horizontal)
 
             Button(action: retryAction) {
-                Text("Retry")
+                Text(Constants.retryTitle)
                     .fontWeight(.semibold)
                     .padding()
                     .frame(maxWidth: .infinity)

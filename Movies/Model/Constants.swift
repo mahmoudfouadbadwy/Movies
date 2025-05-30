@@ -7,9 +7,9 @@
 
 
 struct Constants {
-    
-    static let imagePath = "http://image.tmdb.org/t/p/w185/"
-    
-    
-    
+     public static let loadingText = "Loading..."
+     public static let loadingFailed = "Failed to load the Movies"
+     public static let oopsErrorTitle = "Oops!"
+     public static let retryTitle = "Retry"
+     public static let noImageAvailable = "No image available"
 }
