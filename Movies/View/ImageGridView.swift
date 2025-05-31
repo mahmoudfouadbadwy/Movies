@@ -11,40 +11,48 @@ struct ImageGridView: View {
     
     @State var viewModel: HomeViewModel
     @State private var isLoading = false
+    
     private let columns = [ GridItem(.flexible()), GridItem(.flexible())]
-
+    private var movies: [Movie] {
+        viewModel.movies
+    }
+    
     var body: some View {
-        GeometryReader { gemoetry in
-            
+        GeometryReader { geometry in
             if isLoading {
                 ProgressView(Constants.loadingText)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tint(.white)
             }
-            
-            ScrollView(.vertical) {
-                LazyVGrid(columns: columns) {
-                    ForEach(viewModel.movies) { movie in
-                        let url = URL(string: NetworkConstants.imagePath + movie.posterPath)
-                        AsyncImage(url: url) { phase in
-                            if let image = phase.image {
-                                image
-                                    .resizable()
-                                    .aspectRatio(1 ,contentMode: .fit)
-                                    .clipped()
-                            } else if phase.error != nil {
-                                Text(Constants.noImageAvailable)
-                            } else {
-                                Image(systemName: "photo")
-                            }
-                        }.frame(width: gemoetry.size.width / 2, height: gemoetry.size.width / 2)
-                         .task {
-                             await loadMoreMovies(currentMovie: movie)
-                         }
-                    }
-                }
+            ScrollView(.vertical, showsIndicators: false) {
+                lazzyGridView(geometry)
             }
             .background(.black)
+        }
+    }
+    
+    private func lazzyGridView(_ geometry: GeometryProxy) -> some View  {
+        LazyVGrid(columns: columns) {
+            ForEach(movies) { movie in
+                NavigationLink(value: movie) {
+                    let url = URL(string: NetworkConstants.imagePath + movie.posterPath)
+                    AsyncImage(url: url) { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .aspectRatio(1 ,contentMode: .fit)
+                                .clipped()
+                        } else if phase.error != nil {
+                            Text(Constants.noImageAvailable)
+                        } else {
+                            Image(systemName: "photo")
+                        }
+                    }.frame(width: geometry.size.width / 2, height: geometry.size.width / 2)
+                        .task {
+                            await loadMoreMovies(currentMovie: movie)
+                        }
+                }
+            }
         }
     }
 }

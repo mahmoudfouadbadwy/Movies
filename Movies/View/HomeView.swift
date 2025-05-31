@@ -37,6 +37,7 @@ struct HomeView: View {
 
 extension HomeView {
     private func loadMovies() async {
+        guard viewModel.movies.isEmpty else {return}
         isLoading = true
         loadingFailed = false
         do {

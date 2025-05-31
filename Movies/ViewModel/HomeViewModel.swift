@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 
-@Observable class HomeViewModel {
+@MainActor @Observable class HomeViewModel: ObservableObject {
+   
     var movies: [Movie] = []
     
     private let networkService: NetworkService
@@ -26,13 +27,12 @@ import SwiftUI
             if (page == 1) {
                 newMovies = moviesData.movies
             } else {
-                let filteredMovies = Set(moviesData.movies)
-                newMovies = filteredMovies.filter { responseMovie in
+                let uniqueMovies = Set(moviesData.movies)
+                newMovies = uniqueMovies.filter { responseMovie in
                     !self.movies.contains {movie in responseMovie.id == movie.id}
                 }
             }
             self.movies.append(contentsOf: newMovies)
-            self.movies.forEach { print("Movie id ", $0.id)}
             self.currentPage = moviesData.page
         } catch {
             throw(error)
@@ -45,5 +45,21 @@ import SwiftUI
         } catch {
             throw(error)
         }
+    }
+    
+    func toggleFavorite(movieId: Int) {
+        for (index, movie) in self.movies.enumerated() {
+            if movie.id == movieId {
+                self.movies[index].isFavorite.toggle()
+            }
+        }
+    }
+    
+    func getMovie(by id: Int) -> Movie? {
+        let _Movies = self.movies.filter {$0.id == id}
+        guard _Movies.isEmpty == false else {
+            return nil
+        }
+        return _Movies[0]
     }
 }

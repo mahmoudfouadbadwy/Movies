@@ -7,6 +7,7 @@
 
 
 struct Constants {
+     public static let mainTitle = "Movies"
      public static let loadingText = "Loading..."
      public static let loadingFailed = "Failed to load the Movies"
      public static let oopsErrorTitle = "Oops!"
