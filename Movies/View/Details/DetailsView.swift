@@ -32,7 +32,7 @@ struct DetailsView: View {
                             } else if phase.error != nil {
                                 Text(Constants.noImageAvailable)
                             } else {
-                                Image(systemName: "photo")
+                                Image(systemName: Constants.Images.emptyPhoto.rawValue)
                             }
                         }.frame(width: geometry.size.width / 2, height: geometry.size.width / 2)
                         
@@ -49,7 +49,7 @@ struct DetailsView: View {
                                 Button {
                                     viewModel.toggleFavorite(movieId: movie.id)
                                 } label: {
-                                    Image(systemName: _movie.isFavorite ? "heart.fill" : "heart")
+                                    Image(systemName: _movie.isFavorite ? Constants.Images.fillHeart.rawValue : Constants.Images.defaultHeart.rawValue)
                                         .resizable()
                                         .animation(.default)
                                 }

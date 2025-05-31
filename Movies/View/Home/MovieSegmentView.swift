@@ -11,19 +11,18 @@ struct MovieSegmentView: View {
     @Binding var selectedType: MovieType
     var body: some View {
         HStack {
-           Spacer()
-           Picker("", selection: $selectedType) {
-                    ForEach(MovieType.allCases, id: \.self) {
-                        Text($0.text)
-                            .font(.body)
-                            .foregroundStyle(.black)
-                    }
+            Spacer()
+            Picker("", selection: $selectedType) {
+                ForEach(MovieType.allCases, id: \.self) {
+                    Text($0.text)
+                        .font(.body)
+                        .foregroundStyle(.black)
+                }
             }
+            .tint(.white)
             .pickerStyle(.menu)
-            .foregroundStyle(.black)
-    
+            
         }
-       
     }
 }
 
@@ -34,6 +33,7 @@ enum MovieType: CaseIterable {
     case comedey
     case drama
     case family
+    case favorite
     
     var text: String {
         switch self {
@@ -47,6 +47,8 @@ enum MovieType: CaseIterable {
             return "Drama"
         case .family:
             return "Family"
+        case .favorite:
+            return "My Favorite"
         default:
             return "All"
         }

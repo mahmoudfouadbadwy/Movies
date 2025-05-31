@@ -13,4 +13,13 @@ struct Constants {
      public static let oopsErrorTitle = "Oops!"
      public static let retryTitle = "Retry"
      public static let noImageAvailable = "No image available"
+    
+    
+    enum Images: String {
+        case emptyPhoto = "photo"
+        case fillHeart = "heart.fill"
+        case defaultHeart = "heart"
+        case noNetwork = "wifi.exclamationmark"
+        case rating = "star.fill"
+    }
 }

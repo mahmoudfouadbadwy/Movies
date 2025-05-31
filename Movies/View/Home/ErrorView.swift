@@ -14,7 +14,7 @@ struct ErrorView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            Image(systemName: "wifi.exclamationmark")
+            Image(systemName: Constants.Images.noNetwork.rawValue)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 80, height: 80)

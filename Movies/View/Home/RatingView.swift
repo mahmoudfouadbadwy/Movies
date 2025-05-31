@@ -12,7 +12,7 @@ struct RatingView: View {
     var rating: Int
     var label = ""
     var maximumRating = 5
-    var onImage = Image(systemName: "star.fill")
+    var onImage = Image(systemName: Constants.Images.rating.rawValue)
     var offColor = Color.gray
     var onColor = Color.yellow
     
@@ -22,7 +22,7 @@ struct RatingView: View {
                 Text(label)
             }
             ForEach(1..<maximumRating + 1, id: \.self) { number in
-                Image(systemName: "star.fill")
+                Image(systemName: Constants.Images.rating.rawValue)
                         .foregroundStyle(number > rating ? offColor : onColor)
             }
         }

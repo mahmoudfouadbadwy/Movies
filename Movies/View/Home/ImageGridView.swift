@@ -16,7 +16,7 @@ struct ImageGridView: View {
     private let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     private var movies: [Movie] {
         viewModel.movies.filter { movie in
-            (movieGenre == .all  || movie.genreIDS.contains(movieGenre.id))
+            return (movieGenre == .all || movie.genreIDS.contains(movieGenre.id) || (movieGenre == .favorite && movie.isFavorite))
         }
     }
     
@@ -51,7 +51,7 @@ struct ImageGridView: View {
                         } else if phase.error != nil {
                             Text(Constants.noImageAvailable)
                         } else {
-                            Image(systemName: "photo")
+                            Image(systemName: Constants.Images.emptyPhoto.rawValue)
                         }
                     }.frame(width: geometry.size.width / 2, height: geometry.size.width / 2)
                         .task {
