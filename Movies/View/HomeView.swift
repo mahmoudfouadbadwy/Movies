@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State var viewModel: HomeViewModel
+    @State var viewModel: MovieViewModel
     @State private var isLoading = false
     @State private var loadingFailed = false
     
@@ -51,5 +51,5 @@ extension HomeView {
 }
 
 #Preview {
-    HomeView(viewModel: HomeViewModel(networkService: NetworkService()))
+    HomeView(viewModel: MovieViewModel(networkService: NetworkService()))
 }

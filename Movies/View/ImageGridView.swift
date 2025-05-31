@@ -9,12 +9,15 @@ import SwiftUI
 
 struct ImageGridView: View {
     
-    @State var viewModel: HomeViewModel
+    @State var viewModel: MovieViewModel
     @State private var isLoading = false
+    @State private var movieGenre = MovieType.all
     
     private let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     private var movies: [Movie] {
-        viewModel.movies
+        viewModel.movies.filter { movie in
+            (movieGenre == .all  || movie.genreIDS.contains(movieGenre.id))
+        }
     }
     
     var body: some View {
@@ -24,10 +27,13 @@ struct ImageGridView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tint(.white)
             }
+            
             ScrollView(.vertical, showsIndicators: false) {
+                MovieSegmentView(selectedType: $movieGenre)
                 lazzyGridView(geometry)
             }
             .background(.black)
+            
         }
     }
     

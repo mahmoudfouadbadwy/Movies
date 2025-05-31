@@ -11,36 +11,43 @@ import SwiftUI
 struct MoviesApp: App {
     
     init() {
-        // Large Navigation Title
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        // Inline Navigation Title
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
+        self.setupTapBarView()
+        self.setupNavigationBarView()
     }
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                let viewModel = HomeViewModel(networkService: NetworkService())
-                HomeView(viewModel: viewModel)
-                    .navigationDestination(for: Movie.self) { movie in
-                        DetailsView(viewModel: viewModel, movie: movie)
-                    }
-                    .navigationTitle(Constants.mainTitle)
-                    .navigationBarTitleDisplayMode(.large)
-                    .foregroundStyle(.white)
+            TabView {
+                NavigationStack {
+                    let viewModel = MovieViewModel(networkService: NetworkService())
+                    HomeView(viewModel: viewModel)
+                        .navigationTitle(Constants.mainTitle)
+                        .navigationBarTitleDisplayMode(.large)
+                        .foregroundStyle(.white)
+                        .navigationDestination(for: Movie.self) { movie in
+                            DetailsView(viewModel: viewModel, movie: movie)}
+                }
+                .tabItem {
+                    Label("Movies", systemImage: "house.fill")
+                        .padding(.vertical)
+                }
             }
+            .font(.body)
+            .accentColor(Color.white)
         }
     }
 }
 
-extension Binding: @retroactive Hashable where Value: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.wrappedValue.hashValue)
-    }
-}
 
-extension Binding: @retroactive Equatable where Value: Equatable {
-    public static func == (lhs: Binding<Value>, rhs: Binding<Value>) -> Bool {
-        lhs.wrappedValue == rhs.wrappedValue
+private extension MoviesApp {
+   
+    func setupNavigationBarView() {
+        UINavigationBar.appearance().barTintColor = .black
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        // Inline Navigation Title
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
+    }
+    func setupTapBarView() {
+        UITabBar.appearance().barTintColor = .black
     }
 }

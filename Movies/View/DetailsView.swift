@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailsView: View {
     
-    @State var viewModel: HomeViewModel
+    @State var viewModel: MovieViewModel
     var movie: Movie
     
     var body: some View {
@@ -28,6 +28,7 @@ struct DetailsView: View {
                                     .resizable()
                                     .aspectRatio(1 ,contentMode: .fit)
                                     .clipped()
+                                    .border(.white, width: 2)
                             } else if phase.error != nil {
                                 Text(Constants.noImageAvailable)
                             } else {
