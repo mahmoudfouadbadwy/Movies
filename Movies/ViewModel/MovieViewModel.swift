@@ -62,4 +62,15 @@ import SwiftUI
         }
         return _Movies[0]
     }
+    
+    func getReviews(for id: Int) async throws -> ReviewResponse {
+        let url = NetworkConstants.reviewPath + "\(id)" + NetworkConstants.reviewPath2
+        do {
+            let reviews: ReviewResponse = try await networkService.makeRequest(url: url)
+            print(reviews)
+            return reviews
+        } catch {
+            throw(error)
+        }
+    }
 }

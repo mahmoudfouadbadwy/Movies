@@ -10,6 +10,7 @@ import SwiftUI
 struct DetailsView: View {
     
     @State var viewModel: MovieViewModel
+    @State private var reviews: reviews = []
     var movie: Movie
     
     var body: some View {
@@ -64,11 +65,35 @@ struct DetailsView: View {
                         .font(.body)
                         .foregroundStyle(.white)
                         .multilineTextAlignment(.leading)
-                        .padding()
+                        .padding(.horizontal, 4)
+                        .padding(.vertical)
+                    
+                    Divider()
+                        .overlay(.gray)
+                        .frame(width: geometry.size.width * 0.9, height: 5)
+                    
+                    if !reviews.isEmpty {
+                        Text("Reviews")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .padding()
+                        
+                        ReviewsView(reviews: $reviews)
+                            .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.4)
+                    }
+    
                 }
             }
             .frame(width: geometry.size.width)
             .background(.black)
+        }.task {
+            do {
+                let result: ReviewResponse = try await viewModel.getReviews(for: movie.id)
+                self.reviews = result.reviews
+            } catch {
+                
+            }
         }
     }
 }

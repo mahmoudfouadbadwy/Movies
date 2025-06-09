@@ -11,4 +11,6 @@ struct NetworkConstants {
     
     static let moviesUrl = "\(baseURL)api_key=d52a9c41632a8b38d8c0dd5b5652b937"
     static let imagePath = "http://image.tmdb.org/t/p/w185/"
+    static let reviewPath = "https://api.themoviedb.org/3/movie/"
+    static let reviewPath2 = "/reviews?api_key=d52a9c41632a8b38d8c0dd5b5652b937"
 }
