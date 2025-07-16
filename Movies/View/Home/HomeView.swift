@@ -12,6 +12,7 @@ struct HomeView: View {
     @State var viewModel: MovieViewModel
     @State private var isLoading = false
     @State private var loadingFailed = false
+    @State private var movieGenre = MovieType.all
     
     var body: some View {
         Group {
@@ -27,9 +28,15 @@ struct HomeView: View {
                     }
                 }
             } else {
-                ImageGridView(viewModel: viewModel)
+                ImageGridView(viewModel: viewModel, movieGenre: $movieGenre)
             }
-        }.task {
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                MovieSegmentView(selectedType: $movieGenre)
+            }
+        }
+        .task {
             await loadMovies()
         }
     }

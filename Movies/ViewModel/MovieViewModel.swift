@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 
-@MainActor @Observable class MovieViewModel: ObservableObject {
+@MainActor @Observable class MovieViewModel {
    
     var movies: [Movie] = []
     

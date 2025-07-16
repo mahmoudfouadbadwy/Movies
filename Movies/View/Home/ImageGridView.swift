@@ -11,7 +11,8 @@ struct ImageGridView: View {
     
     @State var viewModel: MovieViewModel
     @State private var isLoading = false
-    @State private var movieGenre = MovieType.all
+    @Binding var movieGenre: MovieType
+   
     
     private let columns = [ GridItem(.flexible()), GridItem(.flexible())]
     private var movies: [Movie] {
@@ -29,7 +30,6 @@ struct ImageGridView: View {
             }
             
             ScrollView(.vertical, showsIndicators: false) {
-                MovieSegmentView(selectedType: $movieGenre)
                 lazzyGridView(geometry)
             }
             .background(.black)
