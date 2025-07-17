@@ -8,8 +8,7 @@
 import Foundation
 import SwiftUI
 
-
-@MainActor @Observable class MovieViewModel {
+@Observable class MovieViewModel {
    
     var movies: [Movie] = []
     

@@ -10,7 +10,6 @@ import SwiftUI
 struct ImageGridView: View {
     
     @State var viewModel: MovieViewModel
-    @State private var isLoading = false
     @Binding var movieGenre: MovieType
    
     
@@ -23,12 +22,6 @@ struct ImageGridView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            if isLoading {
-                ProgressView(Constants.loadingText)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .tint(.white)
-            }
-            
             ScrollView(.vertical, showsIndicators: false) {
                 lazzyGridView(geometry)
             }
@@ -69,11 +62,9 @@ extension ImageGridView {
             return
         }
         do {
-            isLoading = true
             try await viewModel.loadMoreMovies()
-            isLoading = false
         } catch {
-            isLoading = false
+            print(error)
         }
     }
 }

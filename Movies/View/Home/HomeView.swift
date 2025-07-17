@@ -19,16 +19,17 @@ struct HomeView: View {
             if isLoading {
                 ProgressView(Constants.loadingText)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-            
-            if loadingFailed {
-                ErrorView(message: Constants.loadingFailed) {
-                    Task {
-                        await loadMovies()
-                    }
-                }
+                    .foregroundStyle(.black)
             } else {
-                ImageGridView(viewModel: viewModel, movieGenre: $movieGenre)
+                if loadingFailed {
+                    ErrorView(message: Constants.loadingFailed) {
+                        Task {
+                            await loadMovies()
+                        }
+                    }
+                } else {
+                    ImageGridView(viewModel: viewModel, movieGenre: $movieGenre)
+                }
             }
         }
         .toolbar {
